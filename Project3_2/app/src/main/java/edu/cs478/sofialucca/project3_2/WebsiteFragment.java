@@ -21,10 +21,12 @@ public class WebsiteFragment  extends Fragment {
     private int mCurrIdx = -1;
     private int mQuoteArrayLen;
     private ListViewModel model;
+    private String[] mWebsiteArray;
 
-    public WebsiteFragment() {
+    public WebsiteFragment(String[] websiteArray) {
         super() ;
         Log.i("QuotesFragment", "I got created!") ;
+        this.mWebsiteArray = websiteArray;
     }
 
     int getShownIndex() {
@@ -36,7 +38,7 @@ public class WebsiteFragment  extends Fragment {
         if (newIndex < 0 || newIndex >= mQuoteArrayLen)
             return;
         mCurrIdx = newIndex;
-        mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
+        mWebsiteView.loadUrl(mWebsiteArray[mCurrIdx]);
     }
 
     @Override
@@ -82,11 +84,11 @@ public class WebsiteFragment  extends Fragment {
 
             // Update UI
             mCurrIdx = item;
-            mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
+            mWebsiteView.loadUrl(mWebsiteArray[mCurrIdx]);
         });
 
         mWebsiteView = getActivity().findViewById(R.id.websiteView);
-        mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
+        mQuoteArrayLen = mWebsiteArray.length;
     }
 
     // Set up some information about the mWebsiteView TextView

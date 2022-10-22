@@ -19,7 +19,14 @@ public class NamesFragment extends ListFragment {
 
     private static final String TAG = "NamesFragment";
     private ListViewModel model;
+    private String[] mNamesArray;
     // Called when the user selects an item from the List
+
+    public NamesFragment(String[] namesArray){
+        this.mNamesArray = namesArray;
+    }
+
+
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int pos, long id) {
 
@@ -66,8 +73,7 @@ public class NamesFragment extends ListFragment {
 
         // Set the list adapter for the ListView
         // Discussed in more detail in the user interface classes lesson
-        setListAdapter(new ArrayAdapter<>(getActivity(),
-                R.layout.name_item, AttractionsActivity.mNamesArray));
+        setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.name_item, mNamesArray));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);

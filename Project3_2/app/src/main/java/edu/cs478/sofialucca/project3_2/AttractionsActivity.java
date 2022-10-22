@@ -36,7 +36,7 @@ public class AttractionsActivity extends AppCompatActivity {
     public static String[] mWebsitesArray;
 
     FragmentManager mFragmentManager;
-    private final WebsiteFragment mWebsiteFragment = new WebsiteFragment();
+    private WebsiteFragment mWebsiteFragment;
 
     private FrameLayout mNamesFrameLayout, mWebsitesFrameLayout;
     private static final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -51,6 +51,7 @@ public class AttractionsActivity extends AppCompatActivity {
         mNamesArray = getResources().getStringArray(R.array.Attractions);
         mWebsitesArray = getResources().getStringArray(R.array.Attractions_links);
         setContentView(R.layout.activity_main);
+        mWebsiteFragment = new WebsiteFragment(mWebsitesArray);
         ///Log.i("AttractionsActivity",mNamesArray[0]);
         //set toolbar
         Toolbar myToolbar = findViewById(R.id.my_toolbar) ;
@@ -69,7 +70,7 @@ public class AttractionsActivity extends AppCompatActivity {
 
         }
         // Start a new FragmentTransaction
-        // Get references to the TitleFragment and to the QuotesFragment
+
         mNamesFrameLayout = (FrameLayout) findViewById(R.id.name_fragment_container);
         mWebsitesFrameLayout = (FrameLayout) findViewById(R.id.website_fragment_container);
 
@@ -82,7 +83,7 @@ public class AttractionsActivity extends AppCompatActivity {
         // UB: 10/2/2016 Changed add() to replace() to avoid overlapping fragments
         fragmentTransaction.replace(
                 R.id.name_fragment_container,
-                new NamesFragment());
+                new NamesFragment(mNamesArray));
 
         // Commit the FragmentTransaction
         fragmentTransaction.commit();
@@ -99,6 +100,7 @@ public class AttractionsActivity extends AppCompatActivity {
         // set up model observer to add and remove quotes fragment
         // Note: the fragment object never gets deleted, it just gets removed when the user
         // presses the "back" button
+
         mModel = new ViewModelProvider(this).get(ListViewModel.class) ;
         mModel.getSelectedItem().observe(this, item -> {
             if (!mWebsiteFragment.isAdded()) {
@@ -147,10 +149,7 @@ public class AttractionsActivity extends AppCompatActivity {
                     MATCH_PARENT, 2f));
         }
     }
-    public void onResume() {
-        super.onResume();
 
-    }
 
     // Create Options Menu
     @Override
