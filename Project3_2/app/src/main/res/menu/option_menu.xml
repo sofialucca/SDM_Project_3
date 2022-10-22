@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/attractions_item"
+        android:title="@string/attractions_string" />
+
+    <item
+        android:id="@+id/hotels_item"
+        android:title="@string/hotels_string" />
+</menu>

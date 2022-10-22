@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Project 3_1</string>
+    <!--TODO: label and description-->
+    <string name="permlab_mp3Permission">Permission for A2</string>
+
+    <string name="permdesc_mp3Permission">Long description</string>
+    <string name="attractions_string">Attractions</string>
+    <string name="hotels_string">Hotels</string>
+    <string name="title_A1">Visit Chicago</string>
+</resources>

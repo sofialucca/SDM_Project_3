@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TuristiChicago</string>
+    <string name="attractions_string">Attractions</string>
+    <string name="hotels_string">Hotels</string>
+    <string-array name="Attractions">
+        <item>Lincoln Park</item>
+        <item>Navy Pier</item>
+        <item>Museum of Science and Industry</item>
+        <item>Art Institute</item>
+        <item>TILT</item>
+    </string-array>
+    <string-array name="Attractions_links">
+        <item>https://www.lpzoo.org/</item>
+        <item>https://navypier.org/</item>
+        <item>https://www.msichicago.org/</item>
+        <item>https://www.artic.edu/</item>
+        <item>https://360chicago.com/tilt</item>
+    </string-array>
+
+</resources>
