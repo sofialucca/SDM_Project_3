@@ -37,11 +37,12 @@ public class AttractionsActivity extends AppCompatActivity {
     public static String[] mWebsitesArray;
 
     FragmentManager mFragmentManager;
-    private WebsiteFragment mWebsiteFragment;
-
+    private WebsiteFragment mWebsiteFragment=new WebsiteFragment();
+    private NamesFragment mNamesFragment= new NamesFragment();
     private FrameLayout mNamesFrameLayout, mWebsitesFrameLayout;
     private static final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
-    //private static final String TAG = "AttractionsActivity";
+    private static final String TAG_WEB_FRAGMENT = "website_fragment";
+    private static final String TAG_NAMES_FRAGMENT = "names_fragment";
 
     private ListViewModel mModel ;
 
@@ -52,7 +53,7 @@ public class AttractionsActivity extends AppCompatActivity {
         mNamesArray = getResources().getStringArray(R.array.Attractions);
         mWebsitesArray = getResources().getStringArray(R.array.Attractions_links);
         setContentView(R.layout.activity_main);
-        mWebsiteFragment = new WebsiteFragment(mWebsitesArray);
+        mWebsiteFragment = new WebsiteFragment();
         ///Log.i("AttractionsActivity",mNamesArray[0]);
         //set toolbar
         /*Toolbar myToolbar = findViewById(R.id.my_toolbar) ;
@@ -80,13 +81,27 @@ public class AttractionsActivity extends AppCompatActivity {
 
         // Get a reference to the SupportFragmentManager instead of original FragmentManager
         mFragmentManager = getSupportFragmentManager();
+        //check retained fragments
         final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        /* mNamesFragment = (NamesFragment) mFragmentManager.findFragmentByTag(TAG_NAMES_FRAGMENT);
+        mWebsiteFragment = (WebsiteFragment) mFragmentManager.findFragmentByTag(TAG_WEB_FRAGMENT);
+
+       if(mWebsiteFragment == null){
+            Log.i("AttractionsActivity","NOT retained webFragment");
+            mWebsiteFragment = new WebsiteFragment();
+            fragmentTransaction.add(mWebsiteFragment, TAG_WEB_FRAGMENT);
+        }
+        if(mNamesFragment == null){
+            Log.i("AttractionsActivity","NOT retained nameFragment");
+            mNamesFragment = new NamesFragment();
+            fragmentTransaction.add(mNamesFragment, TAG_NAMES_FRAGMENT);
+        }*/
 
         // Add the TitleFragment to the layout
         // UB: 10/2/2016 Changed add() to replace() to avoid overlapping fragments
         fragmentTransaction.replace(
                 R.id.name_fragment_container,
-                new NamesFragment());
+                mNamesFragment);
 
         // Commit the FragmentTransaction
         fragmentTransaction.commit();
@@ -121,8 +136,10 @@ public class AttractionsActivity extends AppCompatActivity {
 
                 // Force Android to execute the committed FragmentTransaction
                 mFragmentManager.executePendingTransactions();
+                Log.i("Project3", "Rotation"+item);
             }
         });
+
         setLayout() ;
 
 
@@ -160,6 +177,8 @@ public class AttractionsActivity extends AppCompatActivity {
                         MATCH_PARENT, MATCH_PARENT));
                 mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
                         MATCH_PARENT));
+                //Log.i("AtractionsActivity","Selected Item" + mModel.getSelectedItem());
+                //mModel.selectItem(-1);
             } else {
 
                 // Make the TitleLayout take 1/3 of the layout's width

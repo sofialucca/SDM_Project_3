@@ -22,12 +22,12 @@ public class WebsiteFragment  extends Fragment {
     private int mQuoteArrayLen;
     private ListViewModel model;
     private String[] mWebsiteArray;
-
+/*
     public WebsiteFragment(String[] websiteArray) {
         super() ;
         Log.i("QuotesFragment", "I got created!") ;
         this.mWebsiteArray = websiteArray;
-    }
+    }*/
 
     int getShownIndex() {
         return mCurrIdx;
@@ -51,6 +51,7 @@ public class WebsiteFragment  extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     // Called to create the content view for this Fragment
@@ -84,6 +85,8 @@ public class WebsiteFragment  extends Fragment {
 
             // Update UI
             mCurrIdx = item;
+            Log.i(TAG,"Index: "+mCurrIdx+"\n"+AttractionsActivity.mWebsitesArray[mCurrIdx] +"\n"+mWebsiteView );
+
             mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
         });
 
@@ -93,15 +96,33 @@ public class WebsiteFragment  extends Fragment {
 
     // Set up some information about the mWebsiteView TextView
     // UB: 2/19/2022 -- This is now deprecated
-//	@Override
-//	public void onActivityCreated(Bundle savedInstanceState) {
-//		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
-//		super.onActivityCreated(savedInstanceState);
-//
-//		mWebsiteView = (TextView) getActivity().findViewById(R.id.quoteView);
-//		mQuoteArrLen = QuoteViewerActivity.mQuoteArray.length;
-//	}
+/*	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState){
+		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
+		super.onViewCreated(view,savedInstanceState);
 
+        mWebsiteView = getActivity().findViewById(R.id.websiteView);
+        mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
+        model = new ViewModelProvider(requireActivity()).get(ListViewModel.class);
+
+        // retains last quote shown on config change
+        model.getSelectedItem().observe(getViewLifecycleOwner(), item -> {
+            // UB: 2/19/2022 -- No need to update UI if same item reselected in TitlesFragment
+
+            Log.i("Ugo says", "Entered QuoteFragment observe()") ;
+            if (item == mCurrIdx || item < 0 || item >= mQuoteArrayLen)
+                return;
+
+            // Otherwise, make sure quotes fragment is visible
+
+            // Update UI
+            mCurrIdx = item;
+            Log.i(TAG,"Index: "+mCurrIdx+"\n"+AttractionsActivity.mWebsitesArray[mCurrIdx] +"\n"+mWebsiteView );
+
+            mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
+        });
+	}
+*/
     @Override
     public void onStart() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onStart()");

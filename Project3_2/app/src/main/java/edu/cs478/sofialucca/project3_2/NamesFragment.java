@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,6 +21,7 @@ public class NamesFragment extends ListFragment {
     private static final String TAG = "NamesFragment";
     private ListViewModel model;
     private String[] mNamesArray;
+
     // Called when the user selects an item from the List
 /*
     public NamesFragment(String[] namesArray){
@@ -52,6 +54,8 @@ public class NamesFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
     }
 
     // UB:  Notice that the superclass's method does an OK job of inflating the
@@ -78,6 +82,7 @@ public class NamesFragment extends ListFragment {
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
     }
 
     @Override
