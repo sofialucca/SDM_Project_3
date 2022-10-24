@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="horizontal" >
-    <!--
+<!--
     <include layout = "@layout/toolbar"/>
     -->
     <androidx.fragment.app.FragmentContainerView
@@ -18,7 +18,7 @@
         android:id="@+id/website_fragment_container"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="0"
+        android:layout_weight="2"
          />
 
 

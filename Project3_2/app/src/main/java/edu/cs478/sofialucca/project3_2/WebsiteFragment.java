@@ -38,7 +38,7 @@ public class WebsiteFragment  extends Fragment {
         if (newIndex < 0 || newIndex >= mQuoteArrayLen)
             return;
         mCurrIdx = newIndex;
-        mWebsiteView.loadUrl(mWebsiteArray[mCurrIdx]);
+        mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
     }
 
     @Override
@@ -84,11 +84,11 @@ public class WebsiteFragment  extends Fragment {
 
             // Update UI
             mCurrIdx = item;
-            mWebsiteView.loadUrl(mWebsiteArray[mCurrIdx]);
+            mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
         });
 
         mWebsiteView = getActivity().findViewById(R.id.websiteView);
-        mQuoteArrayLen = mWebsiteArray.length;
+        mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
     }
 
     // Set up some information about the mWebsiteView TextView

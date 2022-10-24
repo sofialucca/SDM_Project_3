@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -54,8 +55,8 @@ public class AttractionsActivity extends AppCompatActivity {
         mWebsiteFragment = new WebsiteFragment(mWebsitesArray);
         ///Log.i("AttractionsActivity",mNamesArray[0]);
         //set toolbar
-        Toolbar myToolbar = findViewById(R.id.my_toolbar) ;
-        setSupportActionBar(myToolbar) ;
+        /*Toolbar myToolbar = findViewById(R.id.my_toolbar) ;
+        setSupportActionBar(myToolbar) ;*/
 
         //set broadcast listener
         mFilter = new IntentFilter("com.cs478.sofialucca.BroadcastReceiver.displayInfos");
@@ -71,6 +72,8 @@ public class AttractionsActivity extends AppCompatActivity {
         }
         // Start a new FragmentTransaction
 
+
+
         mNamesFrameLayout = (FrameLayout) findViewById(R.id.name_fragment_container);
         mWebsitesFrameLayout = (FrameLayout) findViewById(R.id.website_fragment_container);
 
@@ -83,7 +86,7 @@ public class AttractionsActivity extends AppCompatActivity {
         // UB: 10/2/2016 Changed add() to replace() to avoid overlapping fragments
         fragmentTransaction.replace(
                 R.id.name_fragment_container,
-                new NamesFragment(mNamesArray));
+                new NamesFragment());
 
         // Commit the FragmentTransaction
         fragmentTransaction.commit();
@@ -129,25 +132,46 @@ public class AttractionsActivity extends AppCompatActivity {
     }
 
     private void setLayout() {
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Determine whether the QuoteFragment has been added
+            if (!mWebsiteFragment.isAdded()) {
 
-        // Determine whether the QuoteFragment has been added
-        if (!mWebsiteFragment.isAdded()) {
+                // Make the TitleFragment occupy the entire layout
+                mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                        MATCH_PARENT, MATCH_PARENT));
+                mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        MATCH_PARENT));
+            } else {
 
-            // Make the TitleFragment occupy the entire layout
-            mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                    MATCH_PARENT, MATCH_PARENT));
-            mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
-                    MATCH_PARENT));
+                // Make the TitleLayout take 1/3 of the layout's width
+                mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        MATCH_PARENT, 1f));
+
+                // Make the QuoteLayout take 2/3's of the layout's width
+                mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        MATCH_PARENT, 2f));
+            }
         } else {
+            if (!mWebsiteFragment.isAdded()) {
 
-            // Make the TitleLayout take 1/3 of the layout's width
-            mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
-                    MATCH_PARENT, 1f));
+                // Make the TitleFragment occupy the entire layout
+                mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                        MATCH_PARENT, MATCH_PARENT));
+                mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        MATCH_PARENT));
+            } else {
 
-            // Make the QuoteLayout take 2/3's of the layout's width
-            mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
-                    MATCH_PARENT, 2f));
+                // Make the TitleLayout take 1/3 of the layout's width
+                mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        MATCH_PARENT, 0));
+
+                // Make the QuoteLayout take 2/3's of the layout's width
+                mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        MATCH_PARENT, 1f));
+            }
         }
+
     }
 
 
@@ -165,8 +189,8 @@ public class AttractionsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Attractions already selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.hotels_item:
-                Intent intentActivity = new Intent(AttractionsActivity.this, HotelsActivity.class);
-                intentActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK ) ;
+                Intent intentActivity = new Intent(getApplicationContext(), HotelsActivity.class);
+                intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT ) ;
                 startActivity(intentActivity);
                 finish();
                 return true;
