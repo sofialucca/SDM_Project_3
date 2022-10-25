@@ -83,20 +83,21 @@ public class AttractionsActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         //check retained fragments
         final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        /* mNamesFragment = (NamesFragment) mFragmentManager.findFragmentByTag(TAG_NAMES_FRAGMENT);
+         mNamesFragment = (NamesFragment) mFragmentManager.findFragmentByTag(TAG_NAMES_FRAGMENT);
         mWebsiteFragment = (WebsiteFragment) mFragmentManager.findFragmentByTag(TAG_WEB_FRAGMENT);
 
-       if(mWebsiteFragment == null){
-            Log.i("AttractionsActivity","NOT retained webFragment");
-            mWebsiteFragment = new WebsiteFragment();
-            fragmentTransaction.add(mWebsiteFragment, TAG_WEB_FRAGMENT);
-        }
+
         if(mNamesFragment == null){
             Log.i("AttractionsActivity","NOT retained nameFragment");
             mNamesFragment = new NamesFragment();
-            fragmentTransaction.add(mNamesFragment, TAG_NAMES_FRAGMENT);
-        }*/
-
+            fragmentTransaction.add(R.id.name_fragment_container,
+                    mNamesFragment, TAG_NAMES_FRAGMENT).commit();
+        }
+        if(mWebsiteFragment == null){
+            Log.i("AttractionsActivity","NOT retained webFragment");
+            mWebsiteFragment = new WebsiteFragment();
+            //fragmentTransaction.add(mWebsiteFragment, TAG_WEB_FRAGMENT);
+        }/*
         // Add the TitleFragment to the layout
         // UB: 10/2/2016 Changed add() to replace() to avoid overlapping fragments
         fragmentTransaction.replace(
@@ -104,7 +105,7 @@ public class AttractionsActivity extends AppCompatActivity {
                 mNamesFragment);
 
         // Commit the FragmentTransaction
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
 
         // Add a OnBackStackChangedListener to reset the layout when the back stack changes
         mFragmentManager.addOnBackStackChangedListener(
@@ -121,12 +122,14 @@ public class AttractionsActivity extends AppCompatActivity {
 
         mModel = new ViewModelProvider(this).get(ListViewModel.class) ;
         mModel.getSelectedItem().observe(this, item -> {
-            if (!mWebsiteFragment.isAdded()) {
+            if (!mWebsiteFragment.isAdded() && item != -1) {
+                Log.i("AttractionsActivity", "Observer for onCreate");
+                // if(mWebsiteFragment == null){
                 FragmentTransaction fragmentTransaction2 = mFragmentManager.beginTransaction() ;
 
                 // add quote fragment to display
-                fragmentTransaction2.add(R.id.website_fragment_container,
-                        mWebsiteFragment);
+                fragmentTransaction2.replace(R.id.website_fragment_container,
+                        mWebsiteFragment,TAG_WEB_FRAGMENT);
 
                 // Add this FragmentTransaction to the backstack
                 fragmentTransaction2.addToBackStack(null);
@@ -136,7 +139,8 @@ public class AttractionsActivity extends AppCompatActivity {
 
                 // Force Android to execute the committed FragmentTransaction
                 mFragmentManager.executePendingTransactions();
-                Log.i("Project3", "Rotation"+item);
+            }else if(item == -1){
+                mNamesFragment.removeSelected(item);
             }
         });
 
@@ -150,6 +154,7 @@ public class AttractionsActivity extends AppCompatActivity {
 
     private void setLayout() {
         int orientation = getResources().getConfiguration().orientation;
+
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // Determine whether the QuoteFragment has been added
             if (!mWebsiteFragment.isAdded()) {
@@ -177,17 +182,17 @@ public class AttractionsActivity extends AppCompatActivity {
                         MATCH_PARENT, MATCH_PARENT));
                 mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
                         MATCH_PARENT));
-                //Log.i("AtractionsActivity","Selected Item" + mModel.getSelectedItem());
+                Log.i("AttractionsActivity","Selected Item" + mModel.getSelectedItem());
                 //mModel.selectItem(-1);
             } else {
-
+                Log.i("AttractionsActivity","Selected Item" + mModel.getSelectedItem());
                 // Make the TitleLayout take 1/3 of the layout's width
                 mNamesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
-                        MATCH_PARENT, 0));
+                        MATCH_PARENT));
 
                 // Make the QuoteLayout take 2/3's of the layout's width
-                mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,
-                        MATCH_PARENT, 1f));
+                mWebsitesFrameLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                        MATCH_PARENT, MATCH_PARENT));
             }
         }
 

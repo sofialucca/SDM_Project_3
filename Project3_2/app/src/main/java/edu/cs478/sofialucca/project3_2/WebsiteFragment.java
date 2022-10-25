@@ -78,7 +78,7 @@ public class WebsiteFragment  extends Fragment {
             // UB: 2/19/2022 -- No need to update UI if same item reselected in TitlesFragment
 
             Log.i("Ugo says", "Entered QuoteFragment observe()") ;
-            if (item == mCurrIdx || item < 0 || item >= mQuoteArrayLen)
+            if (item < 0 || item >= mQuoteArrayLen)
                 return;
 
             // Otherwise, make sure quotes fragment is visible
@@ -90,8 +90,13 @@ public class WebsiteFragment  extends Fragment {
             mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
         });
 
-        mWebsiteView = getActivity().findViewById(R.id.websiteView);
-        mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
+        if(mCurrIdx != -1){
+            mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
+        }else{
+            mWebsiteView = getActivity().findViewById(R.id.websiteView);
+            mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
+        }
+
     }
 
     // Set up some information about the mWebsiteView TextView
@@ -152,6 +157,7 @@ public class WebsiteFragment  extends Fragment {
     public void onDetach() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onDetach()");
         super.onDetach();
+
     }
 
 
@@ -159,6 +165,8 @@ public class WebsiteFragment  extends Fragment {
     public void onDestroy() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onDestroy()");
         super.onDestroy();
+        model.selectItem(-1);
+        mCurrIdx = -1;
     }
 
     @Override

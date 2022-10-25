@@ -85,6 +85,10 @@ public class NamesFragment extends ListFragment {
 
     }
 
+    public void removeSelected(int pos){
+        getListView().setItemChecked(pos, true);
+        //model.selectItem(-1);
+    }
     @Override
     public void onStart() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onStart()");
