@@ -78,7 +78,9 @@ public class NamesFragment extends ListFragment {
 
         // Set the list adapter for the ListView
         // Discussed in more detail in the user interface classes lesson
-        setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.name_item, AttractionsActivity.mNamesArray));
+        Log.i(TAG, getClass().getSimpleName() + getListAdapter());
+        //if(getListAdapter() == null)
+            setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.name_item, AttractionsActivity.mNamesArray));
 
         // Set the list choice mode to allow only one selection at a time
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);

@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
         intentRequest.setAction("com.cs478.sofialucca.BroadcastReceiver.displayInfos");
         intentRequest.putExtra("nameActivity", typeRequest);
 
-
+        Log.i("Project 3_1","Okay permission");
         //intentRequest.putExtra("contextRequest", MainActivity.this.toString());
         //intentRequest.putExtra("contextRequest",(Serializable) MainActivity.this);
         sendBroadcast(intentRequest);
-
+        finish();
     }
 
     private void checkPermission(){

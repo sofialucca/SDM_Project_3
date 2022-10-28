@@ -1,5 +1,6 @@
 package edu.cs478.sofialucca.project3_2;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,18 +18,13 @@ import androidx.lifecycle.ViewModelProvider;
 public class WebsiteFragment  extends Fragment {
 
     private static final String TAG = "WebsiteFragment";
-
+    private static final String TAG_INDEX = "CURR_INDEX";
     private WebView mWebsiteView = null;
     private int mCurrIdx = -1;
     private int mQuoteArrayLen;
     private ListViewModel model;
     private String[] mWebsiteArray;
-/*
-    public WebsiteFragment(String[] websiteArray) {
-        super() ;
-        Log.i("QuotesFragment", "I got created!") ;
-        this.mWebsiteArray = websiteArray;
-    }*/
+
 
     int getShownIndex() {
         return mCurrIdx;
@@ -51,6 +48,9 @@ public class WebsiteFragment  extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            mCurrIdx = savedInstanceState.getInt(TAG_INDEX);
+        }
         setRetainInstance(true);
     }
 
@@ -59,11 +59,12 @@ public class WebsiteFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
-
+        //Log.i(TAG, "bUNDLE" + savedInstanceState);
         // Inflate the layout defined in quote_fragment.xml
         // The last parameter is false because the returned view does not need to be attached to the container ViewGroup
         return inflater.inflate(R.layout.website_fragment,container, false);
     }
+
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState){
@@ -73,11 +74,14 @@ public class WebsiteFragment  extends Fragment {
 
         model = new ViewModelProvider(requireActivity()).get(ListViewModel.class);
 
+
+
         // retains last quote shown on config change
+        /*
         model.getSelectedItem().observe(getViewLifecycleOwner(), item -> {
             // UB: 2/19/2022 -- No need to update UI if same item reselected in TitlesFragment
 
-            Log.i("Ugo says", "Entered QuoteFragment observe()") ;
+            Log.i("Ugo says", "Entered WebsiteFragment observe()") ;
             if (item < 0 || item >= mQuoteArrayLen)
                 return;
 
@@ -88,14 +92,15 @@ public class WebsiteFragment  extends Fragment {
             Log.i(TAG,"Index: "+mCurrIdx+"\n"+AttractionsActivity.mWebsitesArray[mCurrIdx] +"\n"+mWebsiteView );
 
             mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
-        });
 
-        if(mCurrIdx != -1){
+        });*/
+        mWebsiteView = getActivity().findViewById(R.id.websiteView);
+        mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
+        if(mCurrIdx != -1) {
             mWebsiteView.loadUrl(AttractionsActivity.mWebsitesArray[mCurrIdx]);
-        }else{
-            mWebsiteView = getActivity().findViewById(R.id.websiteView);
-            mQuoteArrayLen = AttractionsActivity.mWebsitesArray.length;
+            //model.selectItem(mCurrIdx);
         }
+
 
     }
 
@@ -138,6 +143,7 @@ public class WebsiteFragment  extends Fragment {
     public void onResume() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onResume()");
         super.onResume();
+
     }
 
 
@@ -145,6 +151,7 @@ public class WebsiteFragment  extends Fragment {
     public void onPause() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onPause()");
         super.onPause();
+        //mWebsiteView.onPause();
     }
 
     @Override
@@ -174,5 +181,16 @@ public class WebsiteFragment  extends Fragment {
         Log.i(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
         super.onDestroyView();
     }
+/*
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // Always do this
+        super.onSaveInstanceState(outState)  ;
 
+        // Save the counter's state
+        Log.i(TAG, "iNDEX" + mCurrIdx);
+        outState.putInt(TAG_INDEX, mCurrIdx); ;
+
+    }
+*/
 }

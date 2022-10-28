@@ -16,7 +16,7 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
-        Log.i("Project 3_2", "Programmatic receiver called");
+        Log.i("Project 3_2", "string" + intent.getStringExtra("nameActivity"));
         Intent intentActivity = new Intent();
 
         switch (intent.getStringExtra("nameActivity")) {
@@ -32,7 +32,7 @@ public class MyReceiver extends BroadcastReceiver {
                 return;
         }
 
-        intentActivity.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK ) ;
+        intentActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK ) ;
         context.startActivity(intentActivity);
 
 
